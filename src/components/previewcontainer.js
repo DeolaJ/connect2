@@ -26,7 +26,7 @@ const PreviewContainer = (props) => {
 
   let isIOS = /iPad|iPhone|iPod/.test(navigator.platform)
   || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
-isIOS=!isIOS
+  
   return (
     <div 
       className={!previewMode ? "editing-preview preview-container" : "preview-container"} 

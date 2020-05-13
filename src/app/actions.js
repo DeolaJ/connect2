@@ -237,7 +237,8 @@ export const doDownloadImage = (selectedPreview) => async dispatch => {
   if (isIOS) {   
     let me = await window.scrollTo(0,0);
     setTimeout(() => {
-      html2canvas(document.querySelector(".image-preview.final")).then(canvas => {
+      html2canvas(document.querySelector(".image-preview.final"), {allowTaint: true, logging: true})
+      .then(canvas => {
         analytics.logEvent("download_image_IOS") 
         const dataUrl = canvas.toDataURL()
 

@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "autoprefixer": "^9.7.6",
     "cloudinary-react": "^1.5.0",
     "dom-to-image": "^2.6.0",
     "firebase": "^7.14.2",
@@ -41,14 +42,14 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
+      ">0.5%",
       "not dead",
-      "not op_mini all"
+      "since 2010",
+      "not op_mini all",
+      "ios_saf"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "since 2010"
     ]
   },
   "devDependencies": {
