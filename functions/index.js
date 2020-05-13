@@ -11,16 +11,15 @@ app.use(cors());
 app.use(bodyParser.json());
 
 admin.initializeApp(functions.config().firebase);
-const config = functions.config().cloudinary;
-cloudinary.config({ 
-    cloud_name: config.cloudname, 
-    api_key: config.apikey, 
-    api_secret: config.apisecret
-})
 
 exports.upload = functions.https.onCall(async (data, context) => {
   try {
-    const { dataUrl } = data
+    cloudinary.config({ 
+        cloud_name: `${functions.config().cloudinary.cloudname}`, 
+        api_key: `${functions.config().cloudinary.apikey}`, 
+        api_secret: `${functions.config().cloudinary.apisecret}`
+    })
+    const { dataUrl } = JSON.parse(data)
     let timeStamp = new Date()
     timeStamp = timeStamp.toJSON()
     let day = timeStamp.substring(0, 10)

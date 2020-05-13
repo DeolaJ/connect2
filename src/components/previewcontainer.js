@@ -24,6 +24,9 @@ const PreviewContainer = (props) => {
     window.addEventListener("resize", resizeContainers)
   }, [previewMode])
 
+  let isIOS = /iPad|iPhone|iPod/.test(navigator.platform)
+  || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+
   return (
     <div 
       className={!previewMode ? "editing-preview preview-container" : "preview-container"} 
@@ -81,14 +84,13 @@ const PreviewContainer = (props) => {
             <button className={"back-button main-button"} onClick={e => doSetPreviewMode(false)}><span>&#60;</span> Back</button>
           </div>
 
-          <div className={"final-result"} style={{ height: `${containerWidth + 20}px`}}>
+          <div className={"final-result"} style={{ height: `${containerWidth + 5}px` }}>
             
             <div 
               className={previewBackground.length ? `image-preview preview ${previewBackground}` : `image-preview preview`}
               style={{ 
                 backgroundImage: !previewBackground.length ? `url(${imageUrl})` : null,
-                height: `${containerWidth}px`,
-                width: containerWidth === 0 ? null : `${containerWidth}px`
+                height: `${containerWidth}px`
               }}
               id={"image-preview"}
             >
@@ -119,7 +121,7 @@ const PreviewContainer = (props) => {
             </div>
 
             <div 
-              className={previewBackground.length ? `${selectedPreview}-preview final ${previewBackground}` : `${selectedPreview}-preview final`}
+              className={previewBackground.length ? `${selectedPreview}-preview final ${previewBackground} ${isIOS && "ios"}` : `${selectedPreview}-preview final ${isIOS && "ios"}`}
               style={{ 
                 backgroundImage: !previewBackground.length ? `url(${imageUrl})` : null,
                 width: "1080px", 

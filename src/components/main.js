@@ -27,7 +27,10 @@ class Main extends Component {
     imageUrl: PropTypes.string,
     previewText: PropTypes.string,
     previewBoldText: PropTypes.string,
-    previewBackground: PropTypes.string
+    previewBackground: PropTypes.string,
+    uploadUrl: PropTypes.string,
+    uploading: PropTypes.bool,
+    generalUrl: PropTypes.string
   }
 
   render () {
@@ -35,7 +38,8 @@ class Main extends Component {
       doSetPreviewBoldText, doSetPreviewText, doSetPreviewBackground,
       imageUrl, previewText, previewBoldText, previewBackground,
       doSetActivePreview, previewMode, selectedPreview, doSetPreviewMode,
-      doResetChanges, doDownloadImage, reset
+      doResetChanges, doDownloadImage, reset, uploading, uploadUrl,
+      generalUrl
     } = this.props
 
     return (
@@ -93,6 +97,10 @@ class Main extends Component {
                 previewText={previewText}
                 selectedPreview={selectedPreview}
                 previewBoldText={previewBoldText}
+                uploadUrl={uploadUrl}
+                uploading={uploading}
+                generalUrl={generalUrl}
+                errorMessage={errorMessage}
               />
             </Grid.Column>
           </>
@@ -112,7 +120,10 @@ const mapStateToProps = (state) => {
     previewBoldText: state.app.previewBoldText,
     previewBackground: state.app.previewBackground,
     previewMode: state.app.previewMode,
-    selectedPreview: state.app.selectedPreview
+    selectedPreview: state.app.selectedPreview,
+    uploadUrl: state.app.uploadUrl,
+    uploading: state.app.uploading,
+    generalUrl: state.app.generalUrl
   }
 }
 

@@ -4,6 +4,7 @@ import "semantic-ui-css/components/checkbox.min.css";
 import '../styles/controlsection.scss'
 import { ReactComponent as Twitter } from '../images/twitter.svg'
 import { ReactComponent as Facebook } from '../images/facebook.svg'
+import { ReactComponent as Loader } from '../images/loadier.svg'
 import firebase from '../firebase'
 
 const ControlSection = (props) => {
@@ -14,7 +15,8 @@ const ControlSection = (props) => {
   const [allowProgress, setAllowProgress] = useState(false)
   const { doSetPreviewMode, previewMode, 
     doDownloadImage, doResetChanges , imageUrl, previewBackground,
-    previewBoldText, previewText, selectedPreview
+    previewBoldText, previewText, selectedPreview, uploadUrl, uploading,
+    generalUrl, errorMessage
   } = props
   useEffect(() => {
     if (
@@ -44,6 +46,9 @@ const ControlSection = (props) => {
     document.execCommand("Copy");
     textArea.remove();
   }
+
+  let isIOS = /iPad|iPhone|iPod/.test(navigator.platform)
+  || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
   
   return (
     <div className={"control-section"}>
@@ -104,8 +109,43 @@ const ControlSection = (props) => {
               className={"download-button main-button"} 
               onClick={() => doDownloadImage(selectedPreview)}
             >
-              Download
+              {
+                uploading 
+                
+                ?
+
+                <>
+                  <span><Loader /></span>
+                  <span>Generating...</span>
+                </>
+
+                :
+
+                <>
+                  <span>Generate Image</span>
+                </>
+              }
             </button>
+
+            {
+              (uploadUrl.length > 0 && isIOS) &&
+              <div style={{ margin: "1rem 0"}}>
+                <a href={uploadUrl} rel="noopener noreferrer" download="p-covid.png" target="_blank">Click to download</a>
+              </div>
+            }
+
+            {
+              (generalUrl.length > 0 && !isIOS) &&
+              <div style={{ margin: "1rem 0"}}>
+                <a href={uploadUrl.length > 0 ? uploadUrl : generalUrl} rel="noopener noreferrer" download="p-covid.png" target="_blank">Click to view</a>
+              </div>
+            }
+            {
+              (errorMessage.length > 0) &&
+              <div style={{ margin: "1rem 0", color: "rgba(255, 255, 255, .7)" }}>
+                {errorMessage}
+              </div>
+            }
 
             <div className={"message-container"}>
               <div className={"share-container"}>
