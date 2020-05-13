@@ -26,7 +26,7 @@ const PreviewContainer = (props) => {
 
   let isIOS = /iPad|iPhone|iPod/.test(navigator.platform)
   || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
-
+isIOS=!isIOS
   return (
     <div 
       className={!previewMode ? "editing-preview preview-container" : "preview-container"} 
@@ -124,14 +124,26 @@ const PreviewContainer = (props) => {
               className={previewBackground.length ? `${selectedPreview}-preview final ${previewBackground} ${isIOS && "ios"}` : `${selectedPreview}-preview final ${isIOS && "ios"}`}
               style={{ 
                 backgroundImage: !previewBackground.length ? `url(${imageUrl})` : null,
-                width: "1080px", 
-                height: "1080px",
+                width: isIOS ? "400px" : "1080px", 
+                height: isIOS ? "400px" : "1080px",
+                margin: isIOS ? "0" : null,
                 zIndex: "-2"
               }}
             >
               <div className={"text-container"}>
                 <div> 
-                  <img src={covidLarge} alt="post covid logo"/>
+                  {
+                    isIOS
+
+                    ?
+
+                    <img src={covidMed} alt="post covid logo" />
+
+                    :
+
+                    <img src={covidLarge} alt="post covid logo"/>
+
+                  }
                   {
                     previewBoldText &&
                     <div className={"bold-text"}>{previewBoldText}</div>
@@ -140,7 +152,17 @@ const PreviewContainer = (props) => {
                 </div>
               </div>
               <div className="image-footer">
-                <img src={logoMed} alt="connect marketing logo" />
+                {
+                  isIOS
+
+                  ?
+
+                  <img src={logo} alt="connect marketing logo" />
+
+                  :
+
+                  <img src={logoMed} alt="connect marketing logo" />
+                }
                 <p>
                   #betterandstronger
                 </p>

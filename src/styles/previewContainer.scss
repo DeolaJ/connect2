@@ -330,38 +330,40 @@
       }
 
       &.ios {
-        height: 540px !important;
-        width: 540px !important;
+        margin: 0 !important;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
 
         .text-container {
           
           img {
-            width: 90%;
+            width: 86%;
           }
 
           .bold-text {
-            font-size: 17px;
-            margin: 0 17px;
-            padding: 10px;
-            line-height: 14px;
-            border-radius: 6px;
+            font-size: 13px;
+            margin: 0 12px;
+            padding: 5px;
+            line-height: 13px;
+            border-radius: 3px;
           }
 
           .body-text {
-            font-size: 15px;
-            line-height: 24px;
-            padding: 10px 14px 7px 14px;
+            font-size: 11px;
+            line-height: 21px;
+            padding: 7px 11px 7px 11px;
           }
         }
 
         .image-footer {
 
           p {
-            font-size: 14px !important;
+            font-size: 12px !important;
           }
 
           img {
-            width: 60px !important;
+            width: 38px !important;
           }
         }
       }
