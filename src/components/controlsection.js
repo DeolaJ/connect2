@@ -32,8 +32,6 @@ const ControlSection = (props) => {
   const url = "https://betterandstronger.web.app"
   const hashtags = ["betterandstronger", "connectmarketingservices"]
   const hashtag = "%23betterandstronger"
-  // Change to the handle of Connect Marketing
-  const related = "deo_joe"
   const quote = `Post COVID-19, ${previewBoldText} ${previewText}`
 
   const copyFunction = () => {
@@ -105,41 +103,81 @@ const ControlSection = (props) => {
             >
               Restart
             </button>
-            <button 
-              className={"download-button main-button"} 
-              onClick={() => doDownloadImage(selectedPreview)}
-            >
-              {
-                uploading 
-                
-                ?
-
-                <>
-                  <span><Loader /></span>
-                  <span>Generating...</span>
-                </>
-
-                :
-
-                <>
-                  <span>Generate Image</span>
-                </>
-              }
-            </button>
 
             {
-              (uploadUrl.length > 0 && isIOS) &&
-              <div style={{ margin: "1rem 0"}}>
-                <a href={uploadUrl} rel="noopener noreferrer" download="p-covid.png" target="_blank">Click to download</a>
-              </div>
+              (uploadUrl.length === 0) && isIOS &&
+
+              <button 
+                className={"download-button main-button"} 
+                onClick={() => doDownloadImage(selectedPreview)}
+              >
+                {
+                  uploading 
+                  
+                  ?
+
+                  <>
+                    <span><Loader /></span>
+                    <span>Generating...</span>
+                  </>
+
+                  :
+
+                  <>
+                    <span>Generate Image</span>
+                  </>
+                }
+              </button>
+
             }
 
             {
-              (generalUrl.length > 0 && !isIOS) &&
-              <div style={{ margin: "1rem 0"}}>
-                <a href={uploadUrl.length > 0 ? uploadUrl : generalUrl} rel="noopener noreferrer" download="p-covid.png" target="_blank">Click to view</a>
-              </div>
+              (uploadUrl.length > 0) && isIOS &&
+              <a href={uploadUrl} rel="noopener noreferrer" download="p-covid.png" target="_blank">
+                <button 
+                  className={"download-button main-button"}
+                >
+                  Click to view
+                </button>
+              </a>
             }
+
+            {
+              (generalUrl.length === 0) && !isIOS &&
+              <button 
+                className={"download-button main-button"} 
+                onClick={() => doDownloadImage(selectedPreview)}
+              >
+                {
+                  uploading 
+                  
+                  ?
+
+                  <>
+                    <span><Loader /></span>
+                    <span>Generating...</span>
+                  </>
+
+                  :
+
+                  <>
+                    <span>Generate Image</span>
+                  </>
+                }
+              </button>
+            }
+
+            {
+              (generalUrl.length > 0) && !isIOS &&
+              <a href={uploadUrl.length > 0 ? uploadUrl : generalUrl} rel="noopener noreferrer" download="p-covid.png" target="_blank">
+                <button 
+                  className={"download-button main-button"}
+                >
+                  Click to view
+                </button>
+              </a>
+            }
+
             {
               (errorMessage.length > 0) &&
               <div style={{ margin: "1rem 0", color: "rgba(255, 255, 255, .7)" }}>

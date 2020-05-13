@@ -194,9 +194,17 @@ export const doSetActivePreview = (selectedPreview) => (dispatch) => {
 
 export const doSetPreviewMode = (previewMode) => (dispatch) => {
   analytics.logEvent("continue_to_preview")
-  return dispatch(setPreviewMode({
-    previewMode
-  }))
+  if (previewMode) {
+    return dispatch(setPreviewMode({
+      previewMode
+    }))
+  } else {
+    return dispatch(setPreviewMode({
+      previewMode,
+      uploadUrl: "",
+      generalUrl: ""
+    }))
+  }
 }
 
 export const doResetChanges = () => (dispatch) => {
@@ -224,7 +232,9 @@ export const doDownloadImage = (selectedPreview) => async dispatch => {
   || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
 
   dispatch(downloadResultStart({
-    isIOS: isIOS
+    isIOS: isIOS,
+    generalUrl: "",
+    uploadUrl: ""
   }))
 
   if (isIOS) {   
@@ -263,6 +273,7 @@ export const doDownloadImage = (selectedPreview) => async dispatch => {
     })
     .catch(error => {
       dispatch(downloadResultFailure())
+      dispatch(setErrorMessage("There was an error downloading the Image, Please try again"))
       console.log(error)
     })
   }
