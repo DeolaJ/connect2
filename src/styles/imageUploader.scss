@@ -1,0 +1,46 @@
+.uploader-container {
+  margin: 1.5rem 0 1rem;
+
+  p {
+    margin: 0;    
+    margin-top: .2rem;
+    color: rgba(255, 255, 255, .8);
+  }
+
+  .file-upload-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+
+    + label {
+      display: inline-block;
+      text-transform: uppercase;
+      padding: .8rem 1rem;
+    }
+  
+    &:focus + label,
+    + label:hover {
+      background-color: rgba(122, 12, 6, .9);
+    }
+
+    + label {
+      cursor: pointer; /* "hand" cursor */
+    }
+
+    &:focus + label {
+      outline: 1px dotted #000;
+      outline: -webkit-focus-ring-color auto 5px;
+    }
+
+    + label * {
+      pointer-events: none;
+    }
+  }
+
+  #upload-label {
+    margin-bottom: 0;
+  }
+}
