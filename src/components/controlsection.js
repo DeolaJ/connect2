@@ -44,9 +44,6 @@ const ControlSection = (props) => {
     document.execCommand("Copy");
     textArea.remove();
   }
-
-  let isIOS = /iPad|iPhone|iPod/.test(navigator.platform)
-  || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
   
   return (
     <div className={"control-section"}>
@@ -105,7 +102,7 @@ const ControlSection = (props) => {
             </button>
 
             {
-              (uploadUrl.length === 0) && isIOS &&
+              (uploadUrl.length === 0) &&
 
               <button 
                 className={"download-button main-button"} 
@@ -132,44 +129,8 @@ const ControlSection = (props) => {
             }
 
             {
-              (uploadUrl.length > 0) && isIOS &&
+              (uploadUrl.length > 0) &&
               <a href={uploadUrl} rel="noopener noreferrer" download="p-covid.png" target="_blank">
-                <button 
-                  className={"download-button main-button"}
-                >
-                  Click to view
-                </button>
-              </a>
-            }
-
-            {
-              (generalUrl.length === 0) && !isIOS &&
-              <button 
-                className={"download-button main-button"} 
-                onClick={() => doDownloadImage(selectedPreview)}
-              >
-                {
-                  uploading 
-                  
-                  ?
-
-                  <>
-                    <span><Loader /></span>
-                    <span>Generating...</span>
-                  </>
-
-                  :
-
-                  <>
-                    <span>Generate Image</span>
-                  </>
-                }
-              </button>
-            }
-
-            {
-              (generalUrl.length > 0) && !isIOS &&
-              <a href={uploadUrl.length > 0 ? uploadUrl : generalUrl} rel="noopener noreferrer" download="p-covid.png" target="_blank">
                 <button 
                   className={"download-button main-button"}
                 >

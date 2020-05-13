@@ -135,10 +135,6 @@ export const setErrorMessage = (errorMessage) => dispatch => {
 }
 
 export const doUploadImage = (dataUrl) => dispatch => {
-  dispatch(uploadImageStart({
-    uploading: true
-  }))
-
   var upload = firebase.functions().httpsCallable('upload');
   const data = {
     dataUrl: dataUrl
@@ -230,13 +226,14 @@ export const doResetChanges = () => (dispatch) => {
 export const doDownloadImage = (selectedPreview) => async dispatch => {
   let isIOS = /iPad|iPhone|iPod/.test(navigator.platform)
   || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
-
   dispatch(downloadResultStart({
     isIOS: isIOS,
     generalUrl: "",
     uploadUrl: ""
   }))
-
+  dispatch(uploadImageStart({
+    uploading: true
+  }))
   if (isIOS) {   
     let me = await window.scrollTo(0,0);
     setTimeout(() => {
@@ -244,9 +241,7 @@ export const doDownloadImage = (selectedPreview) => async dispatch => {
         analytics.logEvent("download_image_IOS") 
         const dataUrl = canvas.toDataURL()
 
-        dispatch(downloadResultSuccess({
-          generalUrl: dataUrl
-        }))
+        dispatch(downloadResultSuccess())
         return dataUrl
       })
       .then(dataUrl => {
@@ -263,9 +258,7 @@ export const doDownloadImage = (selectedPreview) => async dispatch => {
     .then (function (dataUrl) {
       analytics.logEvent("download_image")
 
-      dispatch(downloadResultSuccess({
-        generalUrl: dataUrl
-      }))
+      dispatch(downloadResultSuccess())
       return dataUrl
     })
     .then(dataUrl => {
