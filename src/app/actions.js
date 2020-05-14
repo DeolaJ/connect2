@@ -134,17 +134,18 @@ export const setErrorMessage = (errorMessage) => dispatch => {
   }, 3500)
 }
 
-export const doUploadImage = (dataUrl) => dispatch => {
+export const doUploadImage = (dataUrl, checked) => dispatch => {
   var upload = firebase.functions().httpsCallable('upload');
   const data = {
-    dataUrl: dataUrl
+    dataUrl: dataUrl,
+    checked: checked
   }
   return upload(JSON.stringify(data))
   .then(response => {
     analytics.logEvent("cloudinary_upload_complete")
     const data = JSON.parse(response.data)
     dispatch(uploadImageSuccess({
-      uploadUrl: data.secure_url,
+      uploadUrl: data.secure_url ? data.secure_url : "",
       uploading: false
     }))
   })
@@ -223,7 +224,7 @@ export const doResetChanges = () => (dispatch) => {
   }, 100)
 }
 
-export const doDownloadImage = (selectedPreview) => async dispatch => {
+export const doDownloadImage = (checked) => async dispatch => {
   let isIOS = /iPad|iPhone|iPod/.test(navigator.platform)
   || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
   dispatch(downloadResultStart({
@@ -235,18 +236,17 @@ export const doDownloadImage = (selectedPreview) => async dispatch => {
     uploading: true
   }))
   if (isIOS) {   
-    let me = await window.scrollTo(0,0);
     setTimeout(() => {
       html2canvas(document.querySelector(".image-preview.final"), {allowTaint: true, logging: true})
       .then(canvas => {
         analytics.logEvent("download_image_IOS") 
-        const dataUrl = canvas.toDataURL()
+        const dataUrl = canvas.toDataURL("image/png", 1)
 
         dispatch(downloadResultSuccess())
         return dataUrl
       })
       .then(dataUrl => {
-        dispatch(doUploadImage(dataUrl))
+        dispatch(doUploadImage(dataUrl, checked))
       })
       .catch(error => {
         dispatch(downloadResultFailure())
@@ -254,7 +254,7 @@ export const doDownloadImage = (selectedPreview) => async dispatch => {
       })
     }, 500)
   } else {
-    const node = document.querySelector(`.${selectedPreview}-preview.final`)
+    const node = document.querySelector(".image-preview.final")
     domtoimage.toPng(node)
     .then (function (dataUrl) {
       analytics.logEvent("download_image")
@@ -263,7 +263,8 @@ export const doDownloadImage = (selectedPreview) => async dispatch => {
       return dataUrl
     })
     .then(dataUrl => {
-      dispatch(doUploadImage(dataUrl))
+      console.log(checked)
+      dispatch(doUploadImage(dataUrl, checked))
     })
     .catch(error => {
       dispatch(downloadResultFailure())

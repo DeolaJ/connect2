@@ -7,10 +7,11 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "autoprefixer": "^9.7.6",
+    "browser-image-compression": "^1.0.11",
     "cloudinary-react": "^1.5.0",
     "dom-to-image": "^2.6.0",
     "firebase": "^7.14.2",
-    "html2canvas": "^1.0.0-rc.5",
+    "html2canvas": "1.0.0-rc.1",
     "http-proxy-middleware": "^1.0.3",
     "lodash": "^4.17.15",
     "node-sass": "^4.14.0",
@@ -45,8 +46,7 @@
       ">0.5%",
       "not dead",
       "since 2010",
-      "not op_mini all",
-      "ios_saf"
+      "not op_mini all"
     ],
     "development": [
       "since 2010"

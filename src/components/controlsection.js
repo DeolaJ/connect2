@@ -16,13 +16,12 @@ const ControlSection = (props) => {
   const { doSetPreviewMode, previewMode, 
     doDownloadImage, doResetChanges , imageUrl, previewBackground,
     previewBoldText, previewText, selectedPreview, uploadUrl, uploading,
-    generalUrl, errorMessage
+    errorMessage
   } = props
   useEffect(() => {
     if (
       (previewBackground.length || imageUrl.length) 
-      && previewBoldText && previewText 
-      && checked.checkOne
+      && previewBoldText && previewText
     ) {
       setAllowProgress(true)
     }
@@ -106,7 +105,7 @@ const ControlSection = (props) => {
 
               <button 
                 className={"download-button main-button"} 
-                onClick={() => doDownloadImage(selectedPreview)}
+                onClick={() => doDownloadImage(checked.checkOne)}
               >
                 {
                   uploading 
