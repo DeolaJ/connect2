@@ -44,6 +44,10 @@ const PreviewContainer = (props) => {
               }}
               id={"image-preview"}
             >
+              {
+                !previewBackground.length &&
+                <div className={"overlay"}></div>
+              }
               <div className={"text-container"}>
                 <div>
                   <Responsive maxWidth={460}>
@@ -94,6 +98,10 @@ const PreviewContainer = (props) => {
               }}
               id={"image-preview"}
             >
+              {
+                !previewBackground.length &&
+                <div className={"overlay"}></div>
+              }
               <div className={"text-container"}>
                 <div>
                   <Responsive maxWidth={400}>
@@ -130,6 +138,10 @@ const PreviewContainer = (props) => {
                 zIndex: "-2"
               }}
             >
+              {
+                !previewBackground.length &&
+                <div className={"overlay"}></div>
+              }
               <div className={"text-container"}>
                 <div> 
                   {

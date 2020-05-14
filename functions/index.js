@@ -19,10 +19,10 @@ exports.upload = functions.https.onCall(async (data, context) => {
         api_key: `${functions.config().cloudinary.apikey}`, 
         api_secret: `${functions.config().cloudinary.apisecret}`
     })
-    const { dataUrl } = JSON.parse(data)
+    const { dataUrl, checked } = JSON.parse(data)
     let timeStamp = new Date()
     timeStamp = timeStamp.toJSON()
-    let day = timeStamp.substring(0, 10)
+    let day = checked ? `${timeStamp.substring(0, 10)}/accepted` : timeStamp.substring(0, 10)
     let promise = await cloudinary.v2.uploader.upload(dataUrl, {
       public_id: `${day}/p-covid-${timeStamp}`,
       tags: "connect-campaign"

@@ -153,8 +153,8 @@ const mapDispatchToProps = (dispatch) => {
     doResetChanges () {
       dispatch(appActions.doResetChanges())
     },
-    doDownloadImage (selectedPreview) {
-      dispatch(appActions.doDownloadImage(selectedPreview))
+    doDownloadImage (checked) {
+      dispatch(appActions.doDownloadImage(checked))
     }
   }
 }
