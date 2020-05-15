@@ -14,16 +14,19 @@ const PreviewContainer = (props) => {
 
   const [ containerWidth, setContainerWidth ] = useState(0)
 
+  // Ensures the Preview Container image is a square at all times
   const resizeContainers = () => {
     const width = document.getElementById("image-preview") && document.getElementById("image-preview").clientWidth
     setContainerWidth(width)
   }
 
+  // Updates the Preview Container dimensions when a user clicks continue or resizes their phone
   useLayoutEffect(() => {
     resizeContainers()
     window.addEventListener("resize", resizeContainers)
   }, [previewMode])
 
+  // Variable which checks if the devices is an IOS device
   let isIOS = /iPad|iPhone|iPod/.test(navigator.platform)
   || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
   
@@ -128,10 +131,12 @@ const PreviewContainer = (props) => {
               </div>
             </div>
 
+            {/* Actual Image which is downloaded, but is hidden from view */}
             <div 
               className={previewBackground.length ? `${selectedPreview}-preview final ${previewBackground} ${isIOS && "ios"}` : `${selectedPreview}-preview final ${isIOS && "ios"}`}
               style={{ 
                 backgroundImage: !previewBackground.length ? `url(${imageUrl})` : null,
+                // IOS devices use Retina display, so their image is scaled down by default here
                 width: isIOS ? "400px" : "1080px", 
                 height: isIOS ? "400px" : "1080px",
                 margin: isIOS ? "0" : null,
@@ -144,6 +149,7 @@ const PreviewContainer = (props) => {
               }
               <div className={"text-container"}>
                 <div> 
+                  {/* IOS images are also smaller */}
                   {
                     isIOS
 
@@ -164,6 +170,7 @@ const PreviewContainer = (props) => {
                 </div>
               </div>
               <div className="image-footer">
+                {/* IOS images are also smaller */}
                 {
                   isIOS
 

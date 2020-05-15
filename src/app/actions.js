@@ -28,11 +28,6 @@ export const RETURN_RESET = "RETURN_RESET"
 
 const analytics = firebase.analytics()
 
-const resetProgress = (payload) => ({
-  type: RESET_PROGRESS,
-  payload
-})
-
 const setImage = (payload) => ({
   type: SET_IMAGE,
   payload
@@ -124,9 +119,11 @@ export const dataURItoBlob = (dataURI) => {
 }
 
 export const setErrorMessage = (errorMessage) => dispatch => {
+  // Set Error message
   dispatch(errorNotify({
     errorMessage
   }))
+  // Remove Error message after 3500ms
   setTimeout(() => {
     dispatch(errorHide({
       errorMessage: ""
@@ -135,21 +132,25 @@ export const setErrorMessage = (errorMessage) => dispatch => {
 }
 
 export const doUploadImage = (dataUrl, checked) => dispatch => {
+  // Get Cloud function named Upload
   var upload = firebase.functions().httpsCallable('upload');
   const data = {
     dataUrl: dataUrl,
     checked: checked
   }
+  // Upload Image to Cloudinary
   return upload(JSON.stringify(data))
   .then(response => {
     analytics.logEvent("cloudinary_upload_complete")
     const data = JSON.parse(response.data)
+    // Update the Cloudinary upload url
     dispatch(uploadImageSuccess({
       uploadUrl: data.secure_url ? data.secure_url : "",
       uploading: false
     }))
   })
   .catch((error) => { 
+    // Set any error message
     dispatch(uploadImageFailure({
       uploading: false
     }))
@@ -190,6 +191,7 @@ export const doSetActivePreview = (selectedPreview) => (dispatch) => {
 }
 
 export const doSetPreviewMode = (previewMode) => (dispatch) => {
+  // Change Preview view from either Editing to Viewing the final product or the inverse
   analytics.logEvent("continue_to_preview")
   if (previewMode) {
     return dispatch(setPreviewMode({
@@ -205,6 +207,7 @@ export const doSetPreviewMode = (previewMode) => (dispatch) => {
 }
 
 export const doResetChanges = () => (dispatch) => {
+  // Restart or Reset the Application State for user to start again
   analytics.logEvent("restart_editing")
   dispatch(resetChanges({
     previewMode: false,
@@ -225,17 +228,23 @@ export const doResetChanges = () => (dispatch) => {
 }
 
 export const doDownloadImage = (checked) => async dispatch => {
+  // Checks if the User's devices is IOS
   let isIOS = /iPad|iPhone|iPod/.test(navigator.platform)
   || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+
+  // Reset Url parameters
   dispatch(downloadResultStart({
     isIOS: isIOS,
     generalUrl: "",
     uploadUrl: ""
   }))
+
+  // Start the upload process
   dispatch(uploadImageStart({
     uploading: true
   }))
   if (isIOS) {   
+    // Hhtml2canvas library was used for IOS devices because of some bugs related to Dom2image
     setTimeout(() => {
       html2canvas(document.querySelector(".image-preview.final"), {allowTaint: true, logging: true})
       .then(canvas => {
@@ -254,6 +263,7 @@ export const doDownloadImage = (checked) => async dispatch => {
       })
     }, 500)
   } else {
+    // For non IOS devices
     const node = document.querySelector(".image-preview.final")
     domtoimage.toPng(node)
     .then (function (dataUrl) {
