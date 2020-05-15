@@ -14,6 +14,7 @@ admin.initializeApp(functions.config().firebase);
 
 exports.upload = functions.https.onCall(async (data, context) => {
   try {
+    // Set Cloudinary config
     cloudinary.config({ 
         cloud_name: `${functions.config().cloudinary.cloudname}`, 
         api_key: `${functions.config().cloudinary.apikey}`, 
@@ -22,10 +23,13 @@ exports.upload = functions.https.onCall(async (data, context) => {
     const { dataUrl, checked } = JSON.parse(data)
     let timeStamp = new Date()
     timeStamp = timeStamp.toJSON()
+
+    // Set folder for uploads depending on whether the User ticked the checkbox
     let day = checked ? `${timeStamp.substring(0, 10)}/accepted` : timeStamp.substring(0, 10)
+    
     let promise = await cloudinary.v2.uploader.upload(dataUrl, {
       public_id: `${day}/p-covid-${timeStamp}`,
-      tags: "connect-campaign"
+      tags: "connect-campaign" // Campaign tag
     })
     return JSON.stringify(promise)
   } catch (err) {

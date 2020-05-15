@@ -18,6 +18,8 @@ const ControlSection = (props) => {
     previewBoldText, previewText, selectedPreview, uploadUrl, uploading,
     errorMessage
   } = props
+
+  // Updates the activation of the Continue button which is deactivated by default
   useEffect(() => {
     if (
       (previewBackground.length || imageUrl.length) 
@@ -33,6 +35,7 @@ const ControlSection = (props) => {
   const hashtag = "%23betterandstronger"
   const quote = `Post COVID-19, ${previewBoldText} ${previewText}`
 
+  // Allows user to copy generated message
   const copyFunction = () => {
     analytics.logEvent("copy_message")
     let copyText = document.querySelector(".message-text");
@@ -50,12 +53,8 @@ const ControlSection = (props) => {
         !previewMode &&
 
         <div className={"terms-section"}>
-          <h3>
-            Tick the box to Agree to our Terms &amp; Conditions
-          </h3>
-
           <Checkbox
-            label={<label htmlFor="checkbox-one">Allow my content to be used as part of the #BetterAndStronger campaign by <a href="https://connectmarketingonline.com" rel="noopener noreferrer" target={"_blank"}>connectmarketingonline.com</a></label>}
+            label={<label htmlFor="checkbox-one">I am interested in my content being used as part of the #betterandstronger campaign by <a href="https://connectmarketingonline.com" rel="noopener noreferrer" target={"_blank"}>Connect-Marketing</a></label>}
             onChange={e => {
               setChecked(prevState => ({
                 checkOne: !prevState.checkOne
@@ -72,7 +71,8 @@ const ControlSection = (props) => {
           !previewMode 
           
           ?
-
+          
+          // Buttons shown when a user is Editing the image
           <>
             <button 
               className={"reset-button main-button"} 
@@ -92,6 +92,7 @@ const ControlSection = (props) => {
 
           :
 
+          // Buttons shown when a user has clicked continue
           <>
             <button 
               className={"reset-button main-button"} 
@@ -101,11 +102,13 @@ const ControlSection = (props) => {
             </button>
 
             {
+              // This button generates the final image for the user
               (uploadUrl.length === 0) &&
 
               <button 
                 className={"download-button main-button"} 
                 onClick={() => doDownloadImage(checked.checkOne)}
+                style={ uploading ? { pointerEvents: "none", cursor: "not-allowed" } : null}
               >
                 {
                   uploading 
@@ -128,6 +131,7 @@ const ControlSection = (props) => {
             }
 
             {
+              // This button is avaliable when the Cloudinary image link is available
               (uploadUrl.length > 0) &&
               <a href={uploadUrl} rel="noopener noreferrer" download="p-covid.png" target="_blank">
                 <button 
@@ -139,6 +143,7 @@ const ControlSection = (props) => {
             }
 
             {
+              // This shows errors while uploading
               (errorMessage.length > 0) &&
               <div style={{ margin: "1rem 0", color: "rgba(255, 255, 255, .7)" }}>
                 {errorMessage}
@@ -179,6 +184,7 @@ const ControlSection = (props) => {
                   <br/>
                   <span>#{hashtags.join(" #")}{" "}{url}</span>
                 </code>
+                {/* User is allowed to copy their generated message for sharing on Social media */}
                 <button className={"main-button"} onClick={copyFunction}>
                   Copy
                 </button>

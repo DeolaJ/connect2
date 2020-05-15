@@ -5,6 +5,7 @@ import "semantic-ui-css/components/progress.min.css";
 import imageCompression from 'browser-image-compression'
 import firebase from '../firebase'
 
+// Checks for IOS devices
 let isIOS = /iPad|iPhone|iPod/.test(navigator.platform)
 || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
 
@@ -27,13 +28,16 @@ class ImageUploader extends Component {
 
   previewFile = async (file) => {
     const { options } = this.state
+    // Compress the uploaded image before applying it to the preview
     const output = await imageCompression(file, options)
     const base = this
     const { doSetImage } = this.props
     let reader = new FileReader(output)
     reader.readAsDataURL(output)
     reader.onloadend = function () {
+      // Apply image to the preview
       doSetImage(reader.result)
+      // Add file name to the bottom of the upload button
       base.setState({
         filename: file.name
       })
@@ -42,6 +46,7 @@ class ImageUploader extends Component {
 
   handleFiles = (file) => {
     this.previewFile(file)
+    // Log on Firebase analytics
     analytics.logEvent("upload_image")
   }
 

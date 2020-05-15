@@ -9,7 +9,6 @@ import ControlSection from './controlsection'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import appActions from '../app/actions'
-import "semantic-ui-css/components/transition.min.css";
 
 class Main extends Component {
   static propTypes = {
@@ -159,5 +158,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
+// Link the Reducer state and Action creators to the Main Component
 const MainApp = connect (mapStateToProps, mapDispatchToProps)(Main)
 export default MainApp
